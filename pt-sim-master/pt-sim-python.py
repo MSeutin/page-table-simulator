@@ -34,11 +34,7 @@ pt = [list(map(int, line.split())) for line in f]
 # Get rid of empty Array elements such as extra newlines at EOF
 pt = [x for x in pt if x != []]
 
-# get user input until EOF or Control D is presssed on MAC
-# while True:
-    # user_input = sys.stdin.read()
-    # print(user_input)
-    
+# get user input until EOF or Control D is presssed on MAC 
 for line in sys.stdin:
     num = line.rstrip()
     try:
