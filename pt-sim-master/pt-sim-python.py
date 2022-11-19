@@ -36,11 +36,11 @@ pt = [x for x in pt if x != []]
 
 # get user input until EOF or Control D is presssed on MAC
 # while True:
-#     user_input = sys.stdin.read()
-#     print(user_input)
+    # user_input = sys.stdin.read()
+    # print(user_input)
     
-while True:
-    num = input()
+for line in sys.stdin:
+    num = line.rstrip()
     try:
         # if number is hex, change it to decimal
         if(num[:2] == '0x'):
@@ -53,6 +53,12 @@ while True:
     except:
         print("invalid entry")
         raise SystemExit
+    
+# End of stream!
+print("done")
 
 # close file
 f.close()
+
+# exit program
+exit()
