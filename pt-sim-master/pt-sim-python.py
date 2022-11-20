@@ -34,18 +34,40 @@ pt = [list(map(int, line.split())) for line in f]
 # Get rid of empty Array elements such as extra newlines at EOF
 pt = [x for x in pt if x != []]
 
-# get user input until EOF or Control D is presssed on MAC 
+# get user input until EOF or Control D is presssed on MACc 
 for line in sys.stdin:
     num = line.rstrip()
     try:
         # if number is hex, change it to decimal
         if(num[:2] == '0x'):
             num = int(num, 16)
+            print(f"hex to int: {num}")
         # if number is decimal, change the string to an int
         else:
             num = int(num)
-        # logic
-        print(num)
+            print(f"int to int: {num}")
+        # LOGIC
+        ## Turn the input into binary string
+        num_bin = bin(num)
+        num_bin = num_bin[2:]
+        print(f"input number into bin without 0x: {num_bin}")
+        
+        ## pad binary with zeros on the left to make it the correct size
+        
+        ## Get the Page number bits reference to table in decimal
+        
+        
+        ## Find Entry on Table, check if Valid bit is zero 
+        
+        
+        ## If Entry bit is 1, proceed to find Frame number
+        
+        
+        ## Add Frame number to Offset and create Physical Address
+        
+        
+        ## Return Physical ADDRESS
+    
     except:
         print("invalid entry")
         raise SystemExit
