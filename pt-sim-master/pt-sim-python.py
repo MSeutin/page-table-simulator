@@ -18,15 +18,13 @@ N = addr[0]
 M = addr[1]
 
 # SIZE is the size of a page in bytes
-SIZE = addr[2]
+S = addr[2]
 
-# log base 2 will give single page size
 # Number of Bits used for Table Offset or Table Size
-offset_bits = math.log(addr[2], 2)
+offset = int(math.log(S, 2))
 
-# Number of rows in the page table
-# Number of Bits used to Find any single Page in Table
-page_bits = int(2**(addr[0] - offset_bits))
+# page number in page table 
+num_pages = int(2**(N - offset))
 
 # creates a 2D array of integers -> TABLE
 pt = [list(map(int, line.split())) for line in f]
@@ -52,13 +50,21 @@ for line in sys.stdin:
         num_bin = num_bin[2:]
         print(f"input number into bin without 0x: {num_bin}")
         
-        ## pad binary with zeros on the left to make it the correct size
+        ## pad binary with zeros on the left to make it the correct size for logical address
+        while(len(num_bin) < N):
+            num_bin = '0' + num_bin
         
-        ## Get the Page number bits reference to table in decimal
+        ## separate actual_page_bits & actual_offset
+        page_bits = N - offset
+        actual_page_bits = num_bin[:page_bits]
+        actual_offset = num_bin[page_bits:]
         
+        ## computer actual_page_bits from binary to decimal to find entry in Table Index
+        table_index = int(actual_page_bits, 2)
         
         ## Find Entry on Table, check if Valid bit is zero 
-        
+        table_row = pt[table_index]
+        print(f"TABLE ROW: {table_row}")
         
         ## If Entry bit is 1, proceed to find Frame number
         
@@ -67,6 +73,15 @@ for line in sys.stdin:
         
         
         ## Return Physical ADDRESS
+        # code below converts a binary number into an hex
+        # hex(int('1010),2) -> becomes 0xa
+        
+        
+        # more useful code for later
+        # n_int = 10 # 10
+        # n_bin = bin(n_int) # '0b1010'
+        # n_bin = '000' + n_bin[2:] # '0001010'
+        # print(hex(int(n_bin, 2))) # prints 0xa
     
     except:
         print("invalid entry")
