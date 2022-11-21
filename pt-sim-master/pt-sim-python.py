@@ -39,16 +39,13 @@ for line in sys.stdin:
         # if number is hex, change it to decimal
         if(num[:2] == '0x'):
             num = int(num, 16)
-            print(f"hex to int: {num}")
         # if number is decimal, change the string to an int
         else:
             num = int(num)
-            print(f"int to int: {num}")
         # LOGIC
         ## Turn the input into binary string
         num_bin = bin(num)
         num_bin = num_bin[2:]
-        print(f"input number into bin without 0x: {num_bin}")
         
         ## pad binary with zeros on the left to make it the correct size for logical address
         while(len(num_bin) < N):
@@ -64,11 +61,28 @@ for line in sys.stdin:
         
         ## Find Entry on Table, check if Valid bit is zero 
         table_row = pt[table_index]
-        print(f"TABLE ROW: {table_row}")
         
-        ## If Entry bit is 1, proceed to find Frame number
-        
-        
+        # If page not in physical mem but permission bit != 0, print DISK
+        if table_row[0] == 0 and table_row[1] != 0:
+            print('DISK')
+        # If page not in physical mem and permission bit == 0, print SEGFAULT
+        elif table_row[0] == 0 and table_row[1] == 0:
+            print('SEGFAULT')
+        else:
+            frame_num = table_row[2]
+            frame_bin = bin(frame_num)
+            frame_bin = frame_bin[2:]
+            physical_addr = frame_bin + actual_offset
+
+            ## pad binary with zeros on the left to make it the correct size for logical address
+            while(len(physical_addr) < M):
+                physical_addr = '0' + physical_addr
+
+            physical_addr = hex(int(physical_addr,2))
+            print(physical_addr)
+            # physical_addr = hex(table_row[2]) + hex(actual_offset)
+            # print(physical_addr)
+            
         ## Add Frame number to Offset and create Physical Address
         
         
@@ -86,9 +100,6 @@ for line in sys.stdin:
     except:
         print("invalid entry")
         raise SystemExit
-    
-# End of stream!
-print("done")
 
 # close file
 f.close()
