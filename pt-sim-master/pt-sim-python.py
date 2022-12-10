@@ -80,22 +80,6 @@ for line in sys.stdin:
 
             physical_addr = hex(int(physical_addr,2))
             print(physical_addr)
-            # physical_addr = hex(table_row[2]) + hex(actual_offset)
-            # print(physical_addr)
-            
-        ## Add Frame number to Offset and create Physical Address
-        
-        
-        ## Return Physical ADDRESS
-        # code below converts a binary number into an hex
-        # hex(int('1010),2) -> becomes 0xa
-        
-        
-        # more useful code for later
-        # n_int = 10 # 10
-        # n_bin = bin(n_int) # '0b1010'
-        # n_bin = '000' + n_bin[2:] # '0001010'
-        # print(hex(int(n_bin, 2))) # prints 0xa
     
     except:
         print("invalid entry")
